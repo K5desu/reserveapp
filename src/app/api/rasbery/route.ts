@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { database } from "@/lib/firebase/firebase";
 import { ref, set } from "firebase/database";
 
