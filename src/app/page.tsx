@@ -1,3 +1,17 @@
+"use client";
+import { ref, onValue, set } from "firebase/database";
+import { database } from "@/lib/firebase/firebase";
+import { useEffect, useState } from "react";
+
 export default function Home() {
-  return <main></main>;
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    const starCountRef = ref(database, "user");
+    onValue(starCountRef, (snapshot) => {
+      const data = snapshot.val();
+      setData(data);
+    });
+  }, []);
+  return <main>{data}</main>;
 }

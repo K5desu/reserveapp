@@ -8,19 +8,19 @@ import { getDatabase } from "firebase/database";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyACTSRf4rSTsdy9CXO0uNFHVaTwwrFfTDM",
-  authDomain: "reserveapp-c0dbd.firebaseapp.com",
-  databaseURL: "https://reserveapp-c0dbd-default-rtdb.firebaseio.com",
-  projectId: "reserveapp-c0dbd",
-  storageBucket: "reserveapp-c0dbd.appspot.com",
-  messagingSenderId: "314286825120",
-  appId: "1:314286825120:web:4b5014ee0cc47fac23b3c5",
-  measurementId: "G-BRJXP0DDRJ",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_APIKEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTHDOMAIN,
+  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASEURL,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECTID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGINGSENDERID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APPID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENTID,
 };
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
-
+console.log(firebaseConfig);
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const database = getDatabase(app);

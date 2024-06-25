@@ -3,7 +3,7 @@ import { set, ref } from "firebase/database";
 
 // ユーザーデータをデータベースに書き込む非同期関数
 async function writeUserData(userId: string) {
-  await set(ref(database, "users"), {
+  await set(ref(database, "user"), {
     userId: userId,
   });
 }
