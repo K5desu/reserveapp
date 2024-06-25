@@ -10,7 +10,7 @@ export default function Home() {
     const starCountRef = ref(database, "user");
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
-      setData(data);
+      setData(data.userId);
     });
   }, []);
   return <main>{data}</main>;
