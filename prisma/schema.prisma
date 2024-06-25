@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+model user {
+  id       String    @id  // 学籍番号
+  admin    Boolean   // 社員かどうか
+  reserves reserve[] // ユーザーと予約の関係
+}
+
+model reserve {
+  id          Int       @id @default(autoincrement()) // ID
+  author_id   String    // オーサーID: users.id
+  number      Int       // 予約人数
+  created_at  DateTime  // 作成日時
+  date        DateTime  // 使用開始日時
+  starttime   DateTime  // 使用開始時間
+  finishtime  DateTime  // 使用終了時間
+  room_number String    // 予約部屋
+  author      user      @relation(fields: [author_id], references: [id]) // 外部キーの関係
+}
+
+model news {
+  id      Int      @id @default(autoincrement()) // default
+  date    DateTime // 投稿日
+  content String   // 投稿内容
+}
