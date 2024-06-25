@@ -12,7 +12,7 @@ async function writeUserData(userId: string) {
 // APIルートのハンドラー関数
 export async function POST(request: Request) {
   const res = await request.json();
-  await writeUserData(res.userId);
+  await writeUserData(res);
 
   return Response.json({ res });
 }
