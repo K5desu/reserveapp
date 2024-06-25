@@ -1,9 +1,9 @@
 import { database } from "@/lib/firebase/firebase";
-import { push, ref } from "firebase/database";
+import { update, ref } from "firebase/database";
 
 // ユーザーデータをデータベースに書き込む非同期関数
 async function writeUserData(res: string) {
-  await push(ref(database, "user"), {
+  await update(ref(database, "user"), {
     userId: res,
   });
 }
