@@ -1,8 +1,22 @@
-import Image from "next/image";
+"use client";
+import { ref, onValue, set } from "firebase/database";
+import { database } from "@/lib/firebase/firebase";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+   const [data, setData] = useState();
+
+  useEffect(() => {
+    const starCountRef = ref(database, "user");
+    onValue(starCountRef, (snapshot) => {
+      const data = snapshot.val();
+      setData(data.userId);
+    });
+  }, []);
+
   return (
     <main>
+     {data}
       <div className="w-[1920px] h-[1080px] relative bg-white border border-black">
         <div className="w-[819px] h-[562px] left-[203px] top-[244px] absolute bg-white border border-black">
           <div className="w-[716px] h-[164px] left-[51px] top-[333px] absolute bg-gray-100 rounded-[30px] justify-center items-center inline-flex">
@@ -51,4 +65,8 @@ export default function Home() {
       </div>
     </main>
   );
+
+ 
+ 
+
 }
