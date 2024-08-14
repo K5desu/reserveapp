@@ -1,0 +1,242 @@
+body,
+html {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+header {
+  background-color: #edf3f9;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: red;
+}
+
+.header-right {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.header-right a {
+  color: #f50000;
+  text-decoration: none;
+  font-weight: bold;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.date {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.table-container {
+  width: 60%;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid #000;
+  text-align: center;
+  padding: 18px;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+.reserved {
+  background-color: yellow;
+}
+
+.unavailable {
+  background-color: gray;
+}
+
+.note {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #333;
+}
+
+.form-container {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 5px;
+  width: 80%;
+}
+
+.form-group button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #333;
+  padding: 10px 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .content {
+    flex-direction: column;
+  }
+
+  .table-container,
+  .form-container {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  header {
+    font-size: 20px;
+  }
+
+  .date {
+    font-size: 18px;
+  }
+
+  table th,
+  table td {
+    padding: 14px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+  }
+
+  .form-group button {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .footer {
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  header {
+    font-size: 18px;
+    padding: 10px;
+  }
+
+  .date {
+    font-size: 16px;
+  }
+
+  .table-container,
+  .form-container {
+    width: 100%;
+  }
+
+  table th,
+  table td {
+    padding: 12px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+  }
+
+  .form-group button {
+    padding: 10px 0;
+  }
+
+  .footer {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  body {
+    padding: 5px;
+  }
+
+  header {
+    font-size: 16px;
+    padding: 5px;
+  }
+
+  .date {
+    font-size: 14px;
+  }
+
+  .table-container,
+  .form-container {
+    width: 100%;
+  }
+
+  table th,
+  table td {
+    padding: 8px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+  }
+
+  .form-group button {
+    padding: 5px 0;
+  }
+
+  .footer {
+    font-size: 10px;
+  }
+}
