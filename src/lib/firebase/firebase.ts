@@ -20,7 +20,7 @@ const firebaseConfig = {
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
-console.log(firebaseConfig);
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const database = getDatabase(app);

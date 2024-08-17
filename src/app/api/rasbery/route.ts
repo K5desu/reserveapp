@@ -12,6 +12,5 @@ async function writeUserData(res: string) {
 export async function POST(request: Request) {
   const res = await request.json();
   await writeUserData(res);
-  console.log(res);
   return new Response("OK");
 }
