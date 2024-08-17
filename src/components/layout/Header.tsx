@@ -4,7 +4,7 @@ import { session } from "@/lib/placeholderdata";
 export default function Header() {
   return (
     <header style={{ width: "100%", backgroundColor: "#F1F5F9" }}>
-      <div className="h-[146px] justify-center items-center flex">
+      <div className="h-[146px] flex justify-between items-center ">
         <div className="h-[146px] pl-6 pr-[25px] pt-[39px] pb-[35px]  justify-center items-center flex">
           <div className="h-[72px] text-red-600 text-3xl font-bold font-['Inter']">
             <Link href="./">
