@@ -1,8 +1,6 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "@/lib/prismaclient";
 
 export const checkReserve = async (formdata: FormData) => {
   const author_id = formdata.get("author_id");
@@ -69,4 +67,3 @@ export const removeReserve = async (author_id: string) => {
     throw new Error("予約の削除に失敗しました");
   }
 };
-
