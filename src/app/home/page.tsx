@@ -8,7 +8,7 @@ export default function Page() {
       <div className="w-full h-full relative">
         <div className="w-12 h-11 absolute left-0 top-0 bg-red-600"></div>
       </div>
-      <h2 className="text-red-500">使用状況</h2>
+      <h2 className="text-red-500 text-4xl mb-5">使用状況</h2>
 
       <Calendar
         mode="single"
