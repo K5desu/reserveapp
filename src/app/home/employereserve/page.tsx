@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import TimeSettingComponent from "@/components/timepicker";
 export default function Page() {
   return (
     <>
@@ -109,19 +108,21 @@ export default function Page() {
             <label htmlFor="date" className="mb-1">
               日時
             </label>
-            <input id="date" className="p-2 w-4/5" />
+            <input id="date" type="date" className="p-2 w-4/5" />
           </div>
           <div className="form-group flex flex-col items-center">
             <label htmlFor="start-time" className="mb-1">
               開始時間
             </label>
-            <TimeSettingComponent />
+
+            <input id="start-time" type="time" className="p-2 w-4/5" />
           </div>
           <div className="form-group flex flex-col items-center">
             <label htmlFor="duration" className="mb-1">
               使用時間
             </label>
-            <TimeSettingComponent />
+
+            <input id="start-time" type="time" className="p-2 w-4/5" />
           </div>
           <div className="form-group flex flex-col items-center">
             <label htmlFor="room" className="mb-1">
