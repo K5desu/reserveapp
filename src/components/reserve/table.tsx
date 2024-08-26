@@ -1,6 +1,6 @@
 export default function Table() {
   return (
-    <div>
+    <>
       <div className="table-container w-full md:w-3/5">
         <table className="border-collapse w-full">
           <thead>
@@ -99,6 +99,6 @@ export default function Table() {
           <span>※</span> 黄色は予約済、灰色は利用不可となります。
         </div>
       </div>
-    </div>
+    </>
   );
 }
