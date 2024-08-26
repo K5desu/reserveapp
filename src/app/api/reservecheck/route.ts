@@ -5,7 +5,7 @@ import prisma from "@/lib/prismaclient";
 export const checkReserve = async (formdata: FormData) => {
   const author_id = formdata.get("author_id");
   try {
-    const reserve = await prisma.reserve.findUnique({
+    const reserve = await prisma.reserve.findFirst({
       where: {
         author_id: author_id as string,
       },

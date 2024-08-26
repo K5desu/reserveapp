@@ -20,14 +20,15 @@ model user {
 }
 
 model reserve {
-  //id          Int        @default(autoincrement()) // ID
-  author_id   String    @id// オーサーID: users.id
+  id          Int        @id @default(autoincrement()) // ID
+  author_id   String   // オーサーID: users.id
   number      Int       // 予約人数
   created_at  DateTime  // 作成日時
   date        DateTime  // 使用開始日時
   starttime   DateTime  // 使用開始時間
   finishtime  DateTime  // 使用終了時間
   room_number String    // 予約部屋
+  isRenatal   Boolean   // 貸出かどうか
   author      user      @relation(fields: [author_id], references: [id]) // 外部キーの関係
 }
 

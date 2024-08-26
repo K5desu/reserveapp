@@ -1,24 +1,23 @@
 "use client";
-import { ref, onValue, set } from "firebase/database";
-import { database } from "@/lib/firebase/firebase";
 import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
+import { RyuAuthenticator } from "@/lib/ryu-authentcator";
+import { useRouter } from "next/navigation";
 export default function Home() {
   const [data, setData] = useState();
-
+  const router = useRouter();
+  const IsRyu = RyuAuthenticator();
   useEffect(() => {
-    const starCountRef = ref(database, "user");
-    onValue(starCountRef, (snapshot) => {
-      const data = snapshot.val();
-      setData(data.userId);
-    });
-  }, []);
+    if (IsRyu) {
+      router.push("/home");
+    }
+  }, [IsRyu]);
 
   return (
     <main className="flex flex-col  justify-around p-5 bg-white border-4 border-gray-300 my-5">
       <div className="login-section flex-1 flex flex-col items-center justify-center  p-12 rounded bg-gray-100">
         <button
-          className="login-button bg-red-500 text-white border-none p-4 text-lg rounded-full cursor-pointer w-full"
+          className=" bg-red-500 text-white border-none h-14  text-lg rounded-full cursor-pointer w-full"
           onClick={() => signIn("google", {}, { prompt: "login" })}
         >
           login
