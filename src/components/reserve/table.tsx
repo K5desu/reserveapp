@@ -1,4 +1,6 @@
-export default function Table() {
+import PropTypes from "prop-types";
+
+export default function Table(time: any, roomNumber: any, isEmployer: any) {
   return (
     <>
       <div className="table-container w-full md:w-3/5">
@@ -102,3 +104,9 @@ export default function Table() {
     </>
   );
 }
+
+Table.propTypes = {
+  time: PropTypes.arrayOf(PropTypes.string).isRequired,
+  roomNumber: PropTypes.string.isRequired,
+  isEmployer: PropTypes.bool.isRequired,
+};
