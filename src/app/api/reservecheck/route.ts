@@ -2,10 +2,9 @@
 
 import prisma from "@/lib/prismaclient";
 
-export const checkReserve = async (formdata: FormData) => {
-  const author_id = formdata.get("author_id");
+export const checkReserve = async (author_id: string) => {
   try {
-    const reserve = await prisma.reserve.findFirst({
+    const reserve = await prisma.reserve.findMany({
       where: {
         author_id: author_id as string,
       },
@@ -13,10 +12,7 @@ export const checkReserve = async (formdata: FormData) => {
 
     if (reserve) {
       return {
-        date: reserve.date,
-        starttime: reserve.starttime,
-        finishtime: reserve.finishtime,
-        room_number: reserve.room_number,
+        reserve,
       };
     } else {
       return null;
@@ -54,12 +50,11 @@ export const createReserve = async (formdata: FormData) => {
   }
 };
 
-export const removeReserve = async (author_id: string) => {
-  console.log(author_id);
+export const removeReserve = async (id: number) => {
   try {
     await prisma.reserve.delete({
       where: {
-        author_id: author_id,
+        id: id,
       },
     });
   } catch (error) {

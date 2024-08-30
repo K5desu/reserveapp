@@ -1,5 +1,15 @@
+"use client";
 import Table from "@/components/reserve/table";
+import { useSearchParams } from "next/navigation";
 export default function Page() {
+  const searchParams = useSearchParams();
+
+  const queryDate = searchParams.get("query");
+
+  // 日付を YYYY-MM-DD フォーマットに変換
+  const formattedDate = queryDate
+    ? new Date(queryDate).toISOString().split("T")[0]
+    : "";
   return (
     <>
       <div className="date text-red-500 text-2xl my-5">2024 X月X日</div>
@@ -10,7 +20,13 @@ export default function Page() {
             <label htmlFor="date" className="mb-1">
               日時
             </label>
-            <input id="date" type="date" className="p-2 w-4/5" />
+            <input
+              id="date"
+              type="date"
+              className="p-2 w-4/5"
+              disabled={true}
+              value={formattedDate}
+            />
           </div>
           <div className="form-group flex flex-col items-center">
             <label htmlFor="start-time" className="mb-1">
