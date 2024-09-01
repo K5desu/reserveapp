@@ -7,7 +7,9 @@ export default function Logout() {
   if (status === "authenticated") {
     return (
       <div>
-        <Button onClick={() => signOut()}>ログアウト</Button>
+        <Button onClick={() => signOut()} className="mt-5">
+          ログアウト
+        </Button>
       </div>
     );
   }

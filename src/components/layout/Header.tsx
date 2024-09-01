@@ -1,7 +1,8 @@
+"use client";
 import Link from "next/link";
-import { session } from "@/lib/placeholderdata";
-
+import RyuAdmin from "@/lib/ryuAdmin";
 export default function Header() {
+  const IsRyuAdmin = RyuAdmin();
   return (
     <header style={{ width: "100%", backgroundColor: "#F1F5F9" }}>
       <div className="h-[146px] flex justify-between items-center ">
@@ -12,10 +13,10 @@ export default function Header() {
             </Link>
           </div>
 
-          {!session && (
+          {IsRyuAdmin && (
             <div>
-              <Link href="/">home</Link>
-              <Link href="/">Mypage</Link>
+              <Link href="">予約確認</Link>
+              <Link href="">ニュース一覧</Link>
             </div>
           )}
         </div>

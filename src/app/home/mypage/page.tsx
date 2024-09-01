@@ -39,8 +39,8 @@ export default function Page() {
   }, []);
 
   return (
-    <main className="flex-grow flex justify-center items-center p-4">
-      <section className="text-center border border-gray-300 p-4 max-w-sm w-full">
+    <main className="flex-col flex justify-center items-center p-4">
+      <section className="text-center border  border-gray-300 p-4 max-w-sm w-full">
         <h2 className="text-red-500">My page</h2>
         <h3 className="text-red-500">予約状況</h3>
 
