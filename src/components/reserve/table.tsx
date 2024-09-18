@@ -1,6 +1,51 @@
 import PropTypes from "prop-types";
 
-export default function Table(time: any, roomNumber: any, isEmployer: any) {
+interface Reserve {
+  starttime: string;
+  finishtime: string;
+  room_number: string;
+}
+
+interface TableProps {
+  reserves: Reserve[];
+}
+
+export default function Table({ reserves = [
+  {
+    starttime: "10:00",
+    finishtime: "11:00",
+    room_number: "1-A"
+  },
+  {
+    starttime: "11:00",
+    finishtime: "12:00",
+    room_number: "2-B"
+  },
+  {
+    starttime: "13:00",
+    finishtime: "14:00",
+    room_number: "3-A"
+  }
+] }: TableProps) {
+  const times = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00"];
+  const rooms = ["1-A", "1-B", "2-A", "2-B", "3-A", "3-B"];
+
+  const getCellClass = (room: string, time: string) => {
+    if (!reserves || reserves.length === 0) {
+      return "";
+    }
+    const reserve = reserves.find(
+      (res) =>
+        res.room_number === room &&
+        res.starttime <= time &&
+        res.finishtime > time
+    );
+    if (reserve) {
+      return "bg-yellow-300";
+    }
+    return "";
+  };
+
   return (
     <>
       <div className="table-container w-full md:w-3/5">
@@ -8,93 +53,27 @@ export default function Table(time: any, roomNumber: any, isEmployer: any) {
           <thead>
             <tr>
               <th className="border p-4 bg-gray-100">部屋番号</th>
-              <th className="border p-4 bg-gray-100">
-                10:00
-                <br />
-                ~11:00
-              </th>
-              <th className="border p-4 bg-gray-100">
-                11:00
-                <br />
-                ~12:00
-              </th>
-              <th className="border p-4 bg-gray-100">
-                12:00
-                <br />
-                ~13:00
-              </th>
-              <th className="border p-4 bg-gray-100">
-                13:00
-                <br />
-                ~14:00
-              </th>
-              <th className="border p-4 bg-gray-100">
-                14:00
-                <br />
-                ~15:00
-              </th>
-              <th className="border p-4 bg-gray-100">
-                15:00
-                <br />
-                ~16:00
-              </th>
+              {times.map((time) => (
+                <th key={time} className="border p-4 bg-gray-100">
+                  {time}
+                  <br />
+                  ~{parseInt(time.split(":")[0]) + 1}:00
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="border p-4">1-A</td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-            </tr>
-            <tr>
-              <td className="border p-4">1-B</td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-            </tr>
-            <tr>
-              <td className="border p-4">2-A</td>
-              <td className="border p-4 bg-yellow-300">10:00~11:00</td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-            </tr>
-            <tr>
-              <td className="border p-4">2-B</td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-            </tr>
-            <tr>
-              <td className="border p-4">3-A</td>
-              <td className="border p-4 bg-gray-400">10:00~11:30</td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-            </tr>
-            <tr>
-              <td className="border p-4">3-B</td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-              <td className="border p-4"></td>
-            </tr>
+            {rooms.map((room) => (
+              <tr key={room}>
+                <td className="border p-4">{room}</td>
+                {times.map((time) => (
+                  <td
+                    key={`${room}-${time}`}
+                    className={`border p-4 ${getCellClass(room, time)}`}
+                  ></td>
+                ))}
+              </tr>
+            ))}
           </tbody>
         </table>
         <div className="note mt-2 text-xs text-gray-700">
@@ -106,7 +85,11 @@ export default function Table(time: any, roomNumber: any, isEmployer: any) {
 }
 
 Table.propTypes = {
-  time: PropTypes.arrayOf(PropTypes.string).isRequired,
-  roomNumber: PropTypes.string.isRequired,
-  isEmployer: PropTypes.bool.isRequired,
+  reserves: PropTypes.arrayOf(
+    PropTypes.shape({
+      starttime: PropTypes.string.isRequired,
+      finishtime: PropTypes.string.isRequired,
+      room_number: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
