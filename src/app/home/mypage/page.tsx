@@ -72,7 +72,7 @@ export default function Page() {
           </div>
         )}
 
-        <p className="text-red-500 mt-2">※予約は1つしかできません</p>
+        <p className="text-red-500 mt-2">※本当は予約は1つしかできません</p>
       </section>
       <Logout />
     </main>

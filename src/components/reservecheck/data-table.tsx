@@ -31,7 +31,22 @@ export function DataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
-
+  function IsRental(text: string) {
+    console.log(text);
+    if (text === "未貸し出し") {
+      return (
+        <div className="bg-red-500 text-white rounded-full px-2 py-1">
+          {text}
+        </div>
+      );
+    } else if (text === "貸し出し中") {
+      return (
+        <div className="bg-green-500 text-white rounded-full px-2 py-1">
+          {text}
+        </div>
+      );
+    }
+  }
   return (
     <div className="rounded-md border">
       <Table>

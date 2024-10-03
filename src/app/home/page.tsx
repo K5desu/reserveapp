@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { RyuAuthenticator } from "@/lib/ryu-authentcator";
 import NotAllowed from "@/components/notAllowed";
 import Link from "next/link";
+import Image from "next/image";
 export default function Page() {
   const [loading, setLoading] = useState(true);
   const [date, setDate] = useState<Date | undefined>(new Date());
@@ -24,11 +25,9 @@ export default function Page() {
       ) : (
         <>
           <div className="w-full h-full relative">
-            <div className="w-12 h-11 absolute left-0 top-0 bg-red-600">
-              <Link href="/home/mypage" className="text-white">
-                △
-              </Link>
-            </div>
+            <Link href="/home/mypage">
+              <Image src={"/Group 1.png"} width={50} height={50} alt="cover" />
+            </Link>
           </div>
           <h2 className="text-red-500 text-4xl mb-5">使用状況</h2>
 
