@@ -19,7 +19,12 @@ function Calendar({
   return (
     <DayPicker
       onDayClick={(day) => {
-        router.push(`/home/reserve?query=${day.toISOString()}`);
+        const localDate = new Date(
+          day.getTime() - day.getTimezoneOffset() * 60000
+        )
+          .toISOString()
+          .split("T")[0];
+        router.push(`/home/reserve?query=${localDate}`);
       }}
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}

@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import React from "react";
 
 interface Reserve {
   starttime: string;
@@ -10,40 +11,73 @@ interface TableProps {
   reserves: Reserve[];
 }
 
-export default function Table({ reserves = [
-  {
-    starttime: "10:00",
-    finishtime: "11:00",
-    room_number: "1-A"
-  },
-  {
-    starttime: "11:00",
-    finishtime: "12:00",
-    room_number: "2-B"
-  },
-  {
-    starttime: "13:00",
-    finishtime: "14:00",
-    room_number: "3-A"
-  }
-] }: TableProps) {
+// #fcd34d 16.666%左端のスペース指定
+
+export default function Table({ reserves }: TableProps) {
   const times = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00"];
   const rooms = ["1-A", "1-B", "2-A", "2-B", "3-A", "3-B"];
-
-  const getCellClass = (room: string, time: string) => {
+  const getCellText = (room: string, time: string) => {
     if (!reserves || reserves.length === 0) {
       return "";
     }
-    const reserve = reserves.find(
-      (res) =>
-        res.room_number === room &&
-        res.starttime <= time &&
-        res.finishtime > time
-    );
+    const reserve = reserves.find((res) => {
+      const currentTime = new Date(`1970-01-01T${time}:00`);
+      const startTime = new Date(`1970-01-01T${res.starttime}:00`);
+      const finishTime = new Date(`1970-01-01T${res.finishtime}:00`);
+      const startDuration =
+        (currentTime.getTime() - startTime.getTime()) / 3600000;
+      const finishDuration =
+        (finishTime.getTime() - currentTime.getTime()) / 3600000;
+      return (
+        res.room_number === room && startDuration > -1 && finishDuration > 0
+      );
+    });
     if (reserve) {
-      return "bg-yellow-300";
+      return [reserve.starttime, reserve.finishtime].join(" ~ ");
     }
-    return "";
+
+    return reserve;
+  };
+
+  const getCellStyle = (room: string, time: string) => {
+    if (!reserves || reserves.length === 0) {
+      return {};
+    }
+
+    const reserve = reserves.find((res) => {
+      const currentTime = new Date(`1970-01-01T${time}:00`);
+      const startTime = new Date(`1970-01-01T${res.starttime}:00`);
+      const finishTime = new Date(`1970-01-01T${res.finishtime}:00`);
+      const startDuration =
+        (currentTime.getTime() - startTime.getTime()) / 3600000;
+      const finishDuration =
+        (finishTime.getTime() - currentTime.getTime()) / 3600000;
+      return (
+        res.room_number === room && startDuration > -1 && finishDuration > 0
+      );
+    });
+
+    if (reserve) {
+      const currentTime = new Date(`1970-01-01T${time}:00`);
+      const startTime = new Date(`1970-01-01T${reserve.starttime}:00`);
+      const finishTime = new Date(`1970-01-01T${reserve.finishtime}:00`);
+      let leftMargin = 0;
+      let rightMargin = 100;
+      console.log(currentTime, startTime, finishTime);
+
+      leftMargin =
+        ((startTime.getTime() - currentTime.getTime()) * 100) / 3600000;
+
+      rightMargin =
+        ((finishTime.getTime() - currentTime.getTime()) * 100) / 3600000;
+
+      console.log(leftMargin, rightMargin);
+
+      return {
+        background: `linear-gradient(to right, transparent ${leftMargin}%, #fcd34d ${leftMargin}%, #fcd34d ${rightMargin}%, transparent ${rightMargin}%)`,
+      };
+    }
+    return {};
   };
 
   return (
@@ -56,8 +90,7 @@ export default function Table({ reserves = [
               {times.map((time) => (
                 <th key={time} className="border p-4 bg-gray-100">
                   {time}
-                  <br />
-                  ~{parseInt(time.split(":")[0]) + 1}:00
+                  <br />~{parseInt(time.split(":")[0]) + 1}:00
                 </th>
               ))}
             </tr>
@@ -69,8 +102,11 @@ export default function Table({ reserves = [
                 {times.map((time) => (
                   <td
                     key={`${room}-${time}`}
-                    className={`border p-4 ${getCellClass(room, time)}`}
-                  ></td>
+                    className="border p-4"
+                    style={getCellStyle(room, time)}
+                  >
+                    {getCellText(room, time) ? getCellText(room, time) : ""}
+                  </td>
                 ))}
               </tr>
             ))}

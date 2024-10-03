@@ -7,6 +7,23 @@ export default function Page() {
   const queryDate = searchParams.get("query");
 
   // 日付を YYYY-MM-DD フォーマットに変換
+  const reserves = [
+    {
+      starttime: "10:20",
+      finishtime: "12:10",
+      room_number: "1-A",
+    },
+    {
+      starttime: "11:00",
+      finishtime: "12:00",
+      room_number: "2-B",
+    },
+    {
+      starttime: "13:00",
+      finishtime: "14:00",
+      room_number: "3-A",
+    },
+  ];
   const formattedDate = queryDate
     ? new Date(queryDate).toISOString().split("T")[0]
     : "";
@@ -14,7 +31,7 @@ export default function Page() {
     <>
       <div className="date text-red-500 text-2xl my-5">2024 X月X日</div>
       <div className="content flex flex-col md:flex-row justify-between p-5">
-        <Table />
+        <Table reserves={reserves} />
         <div className="form-container w-full md:w-2/5 flex flex-col gap-5">
           <div className="form-group flex flex-col items-center">
             <label htmlFor="date" className="mb-1">
