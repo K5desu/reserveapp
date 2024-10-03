@@ -16,11 +16,12 @@ interface TableProps {
 export default function Table({ reserves }: TableProps) {
   const times = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00"];
   const rooms = ["1-A", "1-B", "2-A", "2-B", "3-A", "3-B"];
+
   const getCellText = (room: string, time: string) => {
     if (!reserves || reserves.length === 0) {
       return "";
     }
-    const reserve = reserves.find((res) => {
+    const matchingReserves = reserves.filter((res) => {
       const currentTime = new Date(`1970-01-01T${time}:00`);
       const startTime = new Date(`1970-01-01T${res.starttime}:00`);
       const finishTime = new Date(`1970-01-01T${res.finishtime}:00`);
@@ -32,11 +33,12 @@ export default function Table({ reserves }: TableProps) {
         res.room_number === room && startDuration > -1 && finishDuration > 0
       );
     });
-    if (reserve) {
-      return [reserve.starttime, reserve.finishtime].join(" ~ ");
+    if (matchingReserves.length > 0) {
+      return matchingReserves
+        .map((reserve) => `${reserve.starttime} ~ ${reserve.finishtime}`)
+        .join(", ");
     }
-
-    return reserve;
+    return "";
   };
 
   const getCellStyle = (room: string, time: string) => {
@@ -44,7 +46,7 @@ export default function Table({ reserves }: TableProps) {
       return {};
     }
 
-    const reserve = reserves.find((res) => {
+    const matchingReserves = reserves.filter((res) => {
       const currentTime = new Date(`1970-01-01T${time}:00`);
       const startTime = new Date(`1970-01-01T${res.starttime}:00`);
       const finishTime = new Date(`1970-01-01T${res.finishtime}:00`);
@@ -57,24 +59,25 @@ export default function Table({ reserves }: TableProps) {
       );
     });
 
-    if (reserve) {
+    if (matchingReserves.length > 0) {
       const currentTime = new Date(`1970-01-01T${time}:00`);
-      const startTime = new Date(`1970-01-01T${reserve.starttime}:00`);
-      const finishTime = new Date(`1970-01-01T${reserve.finishtime}:00`);
-      let leftMargin = 0;
-      let rightMargin = 100;
-      console.log(currentTime, startTime, finishTime);
+      const gradients = matchingReserves.map((reserve) => {
+        const startTime = new Date(`1970-01-01T${reserve.starttime}:00`);
+        const finishTime = new Date(`1970-01-01T${reserve.finishtime}:00`);
+        let leftMargin = 0;
+        let rightMargin = 100;
 
-      leftMargin =
-        ((startTime.getTime() - currentTime.getTime()) * 100) / 3600000;
+        leftMargin =
+          ((startTime.getTime() - currentTime.getTime()) * 100) / 3600000;
 
-      rightMargin =
-        ((finishTime.getTime() - currentTime.getTime()) * 100) / 3600000;
+        rightMargin =
+          ((finishTime.getTime() - currentTime.getTime()) * 100) / 3600000;
 
-      console.log(leftMargin, rightMargin);
+        return `linear-gradient(to right, transparent ${leftMargin}%, #fcd34d ${leftMargin}%, #fcd34d ${rightMargin}%, transparent ${rightMargin}%)`;
+      });
 
       return {
-        background: `linear-gradient(to right, transparent ${leftMargin}%, #fcd34d ${leftMargin}%, #fcd34d ${rightMargin}%, transparent ${rightMargin}%)`,
+        background: gradients.join(", "),
       };
     }
     return {};
@@ -105,7 +108,7 @@ export default function Table({ reserves }: TableProps) {
                     className="border p-4"
                     style={getCellStyle(room, time)}
                   >
-                    {getCellText(room, time) ? getCellText(room, time) : ""}
+                    {getCellText(room, time)}
                   </td>
                 ))}
               </tr>
