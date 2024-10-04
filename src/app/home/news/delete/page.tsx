@@ -27,15 +27,15 @@ export default function Page() {
 
   return (
     <div>
+      <header className="flex justify-end">
+        <Link
+          href="/home/news/delete"
+          className="pr-5 text-red-300 underline font-bold"
+        >
+          削除ページ
+        </Link>
+      </header>
       <footer className="flex justify-center flex-col">
-        <header className="flex justify-end">
-          <Link
-            href="/home/news/delete"
-            className="pr-5 text-red-300 underline font-bold"
-          >
-            削除ページ
-          </Link>
-        </header>
         {news.map((news, index) => (
           <NewsCard
             key={index}

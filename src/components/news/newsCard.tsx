@@ -19,7 +19,10 @@ export default function NewsCard({
       {IsDelete && (
         <Button
           variant="destructive"
-          onClick={async () => await deleteNewsById(id)}
+          onClick={async () => {
+            await deleteNewsById(id);
+            window.location.reload();
+          }}
         >
           削除
         </Button>
