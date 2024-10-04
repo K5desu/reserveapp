@@ -13,7 +13,7 @@ export type Payment = {
 export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "name",
-    header: "名前",
+    header: "部屋名",
   },
   {
     accessorKey: "student_id",
@@ -25,6 +25,6 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "status",
-    header: "状態",
+    header: "日付",
   },
 ];

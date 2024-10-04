@@ -11,12 +11,6 @@ export default function Page() {
   function getData(): Payment[] {
     return [
       {
-        name: "1A",
-        student_id: "123456",
-        time: "10:00~11:00",
-        status: "10/3",
-      },
-      {
         name: "2B",
         student_id: "123456",
         time: "10:00~11:00",
@@ -38,10 +32,10 @@ export default function Page() {
     <div>
       <header className="flex justify-end ">
         <Link
-          href="/home/owner/return"
+          href="/home/owner"
           className="pr-5 text-red-300 underline font-bold "
         >
-          貸出中一覧
+          貸出予定一覧
         </Link>
       </header>
       <form action="" className="justify-end gap-4 m-3 md:flex">
@@ -54,7 +48,7 @@ export default function Page() {
           <Button>検索</Button>
         </div>
       </form>
-      <DemoPage data={getData()} IsRental={false} />
+      <DemoPage data={getData()} IsRental={true} />
     </div>
   );
 }

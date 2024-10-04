@@ -6,7 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Switch } from "@/components/ui/switch";
+
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -20,51 +20,36 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  IsRental: boolean;
 }
+
+// ...他のインポート
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  IsRental,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
-    data,
     columns,
+    data,
     getCoreRowModel: getCoreRowModel(),
   });
-  function IsRental(text: string) {
-    console.log(text);
-    if (text === "未貸し出し") {
-      return (
-        <div className="bg-red-500 text-white rounded-full px-2 py-1">
-          {text}
-        </div>
-      );
-    } else if (text === "貸し出し中") {
-      return (
-        <div className="bg-green-500 text-white rounded-full px-2 py-1">
-          {text}
-        </div>
-      );
-    }
-  }
+
   return (
-    <div className="rounded-md border">
+    <div className="container mx-auto">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                );
-              })}
+              {headerGroup.headers.map((header) => (
+                <TableCell key={header.id}>
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
+                </TableCell>
+              ))}
             </TableRow>
           ))}
         </TableHeader>
@@ -75,25 +60,22 @@ export function DataTable<TData, TValue>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+                {row.getVisibleCells().map((cell) => {
+                  const renderedContent = flexRender(
+                    cell.column.columnDef.cell,
+                    cell.getContext()
+                  );
+                  console.log(renderedContent); // コンソールに出力
+                  return <TableCell key={cell.id}>{renderedContent}</TableCell>;
+                })}
                 <TableCell>
-                  <Switch
-                    onCheckedChange={(checked) => {
-                      console.log(row.original, checked);
-                    }}
-                  />
+                  <Button>{IsRental ? "返却" : "貸出"}</Button>
                 </TableCell>
               </TableRow>
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
+              <TableCell colSpan={columns.length}>データがありません</TableCell>
             </TableRow>
           )}
         </TableBody>

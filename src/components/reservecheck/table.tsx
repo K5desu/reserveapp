@@ -1,22 +1,13 @@
 import { Payment, columns } from "./columns";
 import { DataTable } from "./data-table";
-function getData(): Payment[] {
-  return [
-    {
-      name: "John Doe",
-      student_id: "123456",
-      time: "10:00",
-      status: "未貸し出し",
-    },
-  ];
+interface DemoPageProps {
+  data: Payment[];
+  IsRental: boolean;
 }
-
-export function DemoPage() {
-  const data = getData();
-
+export function DemoPage({ data, IsRental }: DemoPageProps) {
   return (
-    <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
+    <div className="container mx-auto pb-10">
+      <DataTable columns={columns} data={data} IsRental={IsRental} />
     </div>
   );
 }

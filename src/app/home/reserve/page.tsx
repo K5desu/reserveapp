@@ -1,12 +1,12 @@
 "use client";
 import Table from "@/components/reserve/table";
 import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+
 export default function Page() {
   const searchParams = useSearchParams();
-
   const queryDate = searchParams.get("query");
 
-  // 日付を YYYY-MM-DD フォーマットに変換
   const reserves = [
     {
       starttime: "12:00",
@@ -19,15 +19,59 @@ export default function Page() {
       room_number: "1-A",
     },
   ];
+
   const formattedDate = queryDate
     ? new Date(queryDate).toISOString().split("T")[0]
     : "";
+
+  const [startTime, setStartTime] = useState("");
+  const [finishTime, setFinishTime] = useState("");
+  const [room, setRoom] = useState("1-A");
+  const [error, setError] = useState("");
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    const start = new Date(`1970-01-01T${startTime}:00`);
+    const finish = new Date(`1970-01-01T${finishTime}:00`);
+    const diff = (finish.getTime() - start.getTime()) / (1000 * 60 * 60); // 時間差を計算
+
+    // 2時間以上のチェック
+    if (diff > 2) {
+      setError("開始時間と終了時間の間の時間が2時間以上です。");
+      return;
+    }
+
+    // 予約の重なりチェック
+    const isOverlap = reserves.some((reserve) => {
+      if (reserve.room_number !== room) return false;
+      const reserveStart = new Date(`1970-01-01T${reserve.starttime}:00`);
+      const reserveFinish = new Date(`1970-01-01T${reserve.finishtime}:00`);
+      return (
+        (start >= reserveStart && start < reserveFinish) ||
+        (finish > reserveStart && finish <= reserveFinish) ||
+        (start <= reserveStart && finish >= reserveFinish)
+      );
+    });
+
+    if (isOverlap) {
+      setError("指定された時間帯には既に同じ部屋の予約があります。");
+      return;
+    }
+
+    setError("");
+    // 予約処理をここに追加
+    console.log("予約が正常に処理されました。");
+  };
+
   return (
     <>
       <div className="date text-red-500 text-2xl my-5">2024 X月X日</div>
       <div className="content flex flex-col md:flex-row justify-between p-5">
         <Table reserves={reserves} />
-        <div className="form-container w-full md:w-2/5 flex flex-col gap-5">
+        <form
+          className="form-container w-full md:w-2/5 flex flex-col gap-5"
+          onSubmit={handleSubmit}
+        >
           <div className="form-group flex flex-col items-center">
             <label htmlFor="date" className="mb-1">
               日時
@@ -44,20 +88,37 @@ export default function Page() {
             <label htmlFor="start-time" className="mb-1">
               開始時間
             </label>
-            <input id="start-time" type="time" className="p-2 w-4/5" />
+            <input
+              id="start-time"
+              type="time"
+              className="p-2 w-4/5"
+              value={startTime}
+              onChange={(e) => setStartTime(e.target.value)}
+            />
           </div>
           <div className="form-group flex flex-col items-center">
-            <label htmlFor="duration" className="mb-1">
-              使用時間
+            <label htmlFor="finish-time" className="mb-1">
+              終了時間
             </label>
-
-            <input id="start-time" type="time" className="p-2 w-4/5" />
+            <input
+              id="finish-time"
+              type="time"
+              className="p-2 w-4/5"
+              value={finishTime}
+              onChange={(e) => setFinishTime(e.target.value)}
+            />
           </div>
           <div className="form-group flex flex-col items-center">
             <label htmlFor="room" className="mb-1">
               予約部屋
             </label>
-            <select id="room" name="room" className="p-2 w-4/5">
+            <select
+              id="room"
+              name="room"
+              className="p-2 w-4/5"
+              value={room}
+              onChange={(e) => setRoom(e.target.value)}
+            >
               <option value="1-A">1-A</option>
               <option value="1-B">1-B</option>
               <option value="2-A">2-A</option>
@@ -77,12 +138,13 @@ export default function Page() {
               <option value="4">4人</option>
             </select>
           </div>
+          {error && <div className="text-red-500 text-center">{error}</div>}
           <div className="form-group flex flex-col items-center">
             <button className="mt-2 p-2 bg-red-500 text-white w-4/5">
               予約する
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </>
   );
