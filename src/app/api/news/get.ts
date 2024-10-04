@@ -8,7 +8,15 @@ export async function getAllNews() {
         date: "desc",
       },
     });
-    return news;
+
+    // ニュースを指定された形式に変換
+    const formattedNews = news.map((item) => ({
+      id: item.id,
+      contents: item.content,
+      date: item.date.toISOString().split("T")[0], // YYYY-MM-DD形式に変換
+    }));
+
+    return formattedNews;
   } catch (error) {
     console.error("ニュースの取得に失敗しました:", error);
     throw new Error("ニュースの取得に失敗しました");
