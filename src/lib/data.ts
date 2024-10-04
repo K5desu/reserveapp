@@ -1,1 +1,1 @@
-export const emailData = ["y220010@mail.ryukoku.ac.jp"];
+export const emailData = ["testuserforryukoku@gmail.com"];

@@ -2,11 +2,17 @@
 import Table from "@/components/reserve/table";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { createReserve } from "@/app/api/reservecheck/route";
 
 export default function Page() {
   const searchParams = useSearchParams();
+  const { toast } = useToast();
   const queryDate = searchParams.get("query");
-
+  const [numPeople, setNumPeople] = useState("1");
+  const handleNumPeopleChange = (e: any) => {
+    setNumPeople(e.target.value);
+  };
   const reserves = [
     {
       starttime: "12:00",
@@ -29,15 +35,27 @@ export default function Page() {
   const [room, setRoom] = useState("1-A");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     const start = new Date(`1970-01-01T${startTime}:00`);
     const finish = new Date(`1970-01-01T${finishTime}:00`);
     const diff = (finish.getTime() - start.getTime()) / (1000 * 60 * 60); // 時間差を計算
 
+    // 予約時間が10:00から17:00の間にあるかチェック
+    const startHour = start.getHours();
+    const finishHour = finish.getHours();
+    if (
+      startHour < 10 ||
+      finishHour > 17 ||
+      (finishHour === 17 && finish.getMinutes() > 0)
+    ) {
+      setError("予約時間は10:00から17:00の間でなければなりません。");
+      return;
+    }
+
     // 2時間以上のチェック
     if (diff > 2) {
-      setError("開始時間と終了時間の間の時間が2時間以上です。");
+      setError("開始時間と終了時間の間は二時間以内にしてください。");
       return;
     }
 
@@ -60,7 +78,19 @@ export default function Page() {
 
     setError("");
     // 予約処理をここに追加
-    console.log("予約が正常に処理されました。");
+    toast({
+      title: "正常に予約がされました",
+      description: "Mypageを確認してください",
+    });
+
+    await createReserve(
+      "y220018",
+      numPeople,
+      formattedDate,
+      startTime,
+      finishTime,
+      room
+    );
   };
 
   return (
@@ -131,11 +161,16 @@ export default function Page() {
             <label htmlFor="num-people" className="mb-1">
               使用人数
             </label>
-            <select id="num-people" name="num-people" className="p-2 w-4/5">
-              <option value="1">1人</option>
-              <option value="2">2人</option>
-              <option value="3">3人</option>
-              <option value="4">4人</option>
+            <select
+              id="num-people"
+              name="num-people"
+              className="p-2 w-4/5"
+              onChange={handleNumPeopleChange}
+            >
+              <option value={1}>1人</option>
+              <option value={2}>2人</option>
+              <option value={3}>3人</option>
+              <option value={4}>4人</option>
             </select>
           </div>
           {error && <div className="text-red-500 text-center">{error}</div>}

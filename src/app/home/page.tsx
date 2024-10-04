@@ -2,18 +2,30 @@
 import { Calendar } from "@/components/ui/calendar";
 import { useState, useEffect } from "react";
 import { RyuAuthenticator } from "@/lib/ryu-authentcator";
+import createUser from "../api/user/createUser";
 import NotAllowed from "@/components/notAllowed";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 export default function Page() {
+  const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const [date, setDate] = useState<Date | undefined>(new Date());
   const IsRyu = RyuAuthenticator();
   useEffect(() => {
+    async function create() {
+      if (IsRyu && session && session.user?.email) {
+        await createUser(session.user.email);
+
+        // articlesを使用して何かを行う
+      }
+    }
+    create();
+
     if (IsRyu) {
       setLoading(false);
     }
-  }, [IsRyu]);
+  }, []);
   return (
     <main className="flex flex-col items-center p-4 bg-white border-2 border-gray-300">
       {loading ? (

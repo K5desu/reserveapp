@@ -7,7 +7,12 @@ export default function Logout() {
   if (status === "authenticated") {
     return (
       <div>
-        <Button onClick={() => signOut()} className="mt-5">
+        <Button
+          onClick={() => {
+            signOut({ callbackUrl: "/" });
+          }}
+          className="mt-5"
+        >
           ログアウト
         </Button>
       </div>

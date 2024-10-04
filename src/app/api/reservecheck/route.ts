@@ -23,24 +23,24 @@ export const checkReserve = async (author_id: string) => {
   }
 };
 
-export const createReserve = async (formdata: FormData) => {
-  const author_id = formdata.get("author_id");
-  const number = formdata.get("number");
-  const date = formdata.get("date");
-  const starttime = formdata.get("starttime");
-  const finishtime = formdata.get("finishtime");
-  const room_number = formdata.get("room_number");
-
+export const createReserve = async (
+  author_id: string,
+  number: string,
+  date: string,
+  starttime: string,
+  finishtime: string,
+  room_number: string
+) => {
   try {
     const newReserve = await prisma.reserve.create({
       data: {
         author_id: author_id as string,
         number: parseInt(number as string),
-        created_at: new Date(), // Add the created_at property with the current date and time
         date: date as string,
         starttime: starttime as string,
         finishtime: finishtime as string,
         room_number: room_number as string,
+        isRenatal: false,
       },
     });
     return newReserve;

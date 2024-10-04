@@ -1,4 +1,5 @@
 import NewsCard from "@/components/news/newsCard";
+import Link from "next/link";
 export default function Page() {
   const news = [
     { contents: "news1", date: "2022-01-01" },
@@ -14,6 +15,14 @@ export default function Page() {
   ];
   return (
     <footer className="flex  justify-center flex-col">
+      <header className="flex justify-end ">
+        <Link
+          href="/home/news/delete"
+          className="pr-5 text-red-300 underline font-bold "
+        >
+          削除ページ
+        </Link>
+      </header>
       {news.map((news, index) => (
         <NewsCard
           key={index}

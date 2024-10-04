@@ -3,12 +3,12 @@ export function RyuAuthenticator() {
   const { data: session, status } = useSession();
   let emailDomain = "";
   if (session) {
-    emailDomain =
-      session.user?.email && session.user.email.includes("@")
-        ? session.user.email.split("@")[1]
-        : "";
+    emailDomain = session.user?.email || "";
   }
-  if (status === "authenticated" && emailDomain === "mail.ryukoku.ac.jp") {
+  if (
+    status === "authenticated" &&
+    emailDomain === "testuserforryukoku@gmail.com"
+  ) {
     return true;
   } else {
     return false;

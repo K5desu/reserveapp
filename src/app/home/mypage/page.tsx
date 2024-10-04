@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import {
   checkReserve,
@@ -7,18 +6,18 @@ import {
   removeReserve,
 } from "@/app/api/reservecheck/route";
 import { RyuAuthenticator } from "@/lib/ryu-authentcator";
-import { StudentId } from "@/lib/studentId";
+import { Button } from "@/components/ui/button";
 import Logout from "@/components/google/Logout";
 export default function Page() {
   const IsRyu = RyuAuthenticator();
-  const studentId = StudentId();
+  const studentId = "y220018";
   const [reserveData, setReserveData] = useState<
     | {
         id: number;
         author_id: string;
-        date: Date;
-        starttime: Date;
-        finishtime: Date;
+        date: string;
+        starttime: string;
+        finishtime: string;
         room_number: string;
       }[]
     | null
@@ -46,29 +45,34 @@ export default function Page() {
 
         {reserveData && reserveData.length > 0 && (
           <div className="border border-gray-300 p-4 mt-4">
-            {reserveData.map((reserve, index) => (
-              <>
-                <div key={index} className="mb-4">
-                  <p>
-                    予約日：{reserve.date.getFullYear()}年{" "}
-                    {reserve.date.getMonth() + 1}月 {reserve.date.getDate()}日
-                  </p>
-                  <p>
-                    予約時間：{reserve.starttime.getHours()}時
-                    {reserve.starttime.getMinutes()}分 ~{" "}
-                    {reserve.finishtime.getHours()}時
-                    {reserve.finishtime.getMinutes()}分
-                  </p>
+            {reserveData.map((reserve, index) => {
+              const reserveDate = new Date(reserve.date as string);
+              const startTimeParts = reserve.starttime.split(":");
+              const finishTimeParts = reserve.finishtime.split(":");
+
+              return (
+                <div key={index} className="mb-4 border border-gray-300">
                   <p>部屋番号：{reserve.room_number}</p>
+                  <p>
+                    予約日：{reserveDate.getFullYear()}年{" "}
+                    {reserveDate.getMonth() + 1}月 {reserveDate.getDate()}日
+                  </p>
+                  <p>
+                    予約時間：{startTimeParts[0]}時{startTimeParts[1]}分 ~{" "}
+                    {finishTimeParts[0]}時{finishTimeParts[1]}分
+                  </p>
+                  <Button
+                    variant="destructive"
+                    onClick={async () => {
+                      await removeReserve(reserve.id);
+                      window.location.reload();
+                    }}
+                  >
+                    削除
+                  </Button>
                 </div>
-                <button
-                  onClick={async () => await removeReserve(reserve.id)}
-                  className="bg-gray-300 border-none px-4 py-2 mt-4"
-                >
-                  この予約をキャンセルする
-                </button>
-              </>
-            ))}
+              );
+            })}
           </div>
         )}
 
