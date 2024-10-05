@@ -7,10 +7,11 @@ interface Reservation {
   room_number: string;
 }
 export interface ReservationAll {
-  author: string;
-  starttime: string;
-  finishtime: string;
-  room_number: string;
+  student_id: string;
+  time: string;
+  name: string;
+  id: number;
+  status: string;
 }
 export async function getReservationByauthorId(author_id: string) {
   try {
@@ -46,6 +47,13 @@ export async function getReservationsByDate(
       room_number: true,
     },
   });
+  //  {
+  //   name: "2B",
+  //   student_id: "123456",
+  //   time: "10:00~11:00",
+  //   status: "10/3",
+  //   id: 100,
+  // },
 
   return reservations.map((reservation) => ({
     starttime: reservation.starttime,
@@ -53,13 +61,18 @@ export async function getReservationsByDate(
     room_number: reservation.room_number,
   }));
 }
-
-export async function getRentalReservations(): Promise<ReservationAll[]> {
+export async function getRentalReservationsByAuthorId(
+  authorId: string,
+  IsRental: boolean
+): Promise<ReservationAll[]> {
   const reservations = await prisma.reserve.findMany({
     where: {
-      isRenatal: true,
+      isRenatal: IsRental,
+      author_id: authorId,
     },
     select: {
+      date: true,
+      id: true,
       starttime: true,
       finishtime: true,
       room_number: true,
@@ -68,19 +81,24 @@ export async function getRentalReservations(): Promise<ReservationAll[]> {
   });
 
   return reservations.map((reservation) => ({
-    starttime: reservation.starttime,
-    finishtime: reservation.finishtime,
-    room_number: reservation.room_number,
-    author: reservation.author_id,
+    id: reservation.id,
+    time: `${reservation.starttime}~${reservation.finishtime}`,
+    name: reservation.room_number,
+    student_id: reservation.author_id,
+    status: reservation.date,
   }));
 }
 
-export async function getNonRentalReservations(): Promise<ReservationAll[]> {
+export async function getRentalReservations(
+  IsRental: boolean
+): Promise<ReservationAll[]> {
   const reservations = await prisma.reserve.findMany({
     where: {
-      isRenatal: false,
+      isRenatal: IsRental,
     },
     select: {
+      date: true,
+      id: true,
       starttime: true,
       finishtime: true,
       room_number: true,
@@ -89,12 +107,14 @@ export async function getNonRentalReservations(): Promise<ReservationAll[]> {
   });
 
   return reservations.map((reservation) => ({
-    starttime: reservation.starttime,
-    finishtime: reservation.finishtime,
-    room_number: reservation.room_number,
-    author: reservation.author_id,
+    id: reservation.id,
+    time: `${reservation.starttime}~${reservation.finishtime}`,
+    name: reservation.room_number,
+    student_id: reservation.author_id,
+    status: reservation.date,
   }));
 }
+
 export async function toggleIsRental(id: number): Promise<void> {
   try {
     const reservation = await prisma.reserve.findUnique({

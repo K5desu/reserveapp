@@ -8,15 +8,17 @@ import {
 } from "@tanstack/react-table";
 import { toggleIsRental } from "@/app/api/reservecheck/all/reserve";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
+interface Identifiable {
+  id: number;
+}
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -25,7 +27,7 @@ interface DataTableProps<TData, TValue> {
 
 // ...他のインポート
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends Identifiable, TValue>({
   columns,
   data,
   IsRental,
@@ -35,7 +37,7 @@ export function DataTable<TData, TValue>({
     data,
     getCoreRowModel: getCoreRowModel(),
   });
-
+  const { toast } = useToast();
   return (
     <div className="container mx-auto">
       <Table>
@@ -69,7 +71,17 @@ export function DataTable<TData, TValue>({
                   return <TableCell key={cell.id}>{renderedContent}</TableCell>;
                 })}
                 <TableCell>
-                  <Button>{IsRental ? "返却" : "貸出"}</Button>
+                  <Button
+                    onClick={async () => {
+                      await toggleIsRental(row.original.id);
+                      window.location.reload();
+                      IsRental
+                        ? toast({ title: "返却しました" })
+                        : toast({ title: "貸し出しました" });
+                    }}
+                  >
+                    {IsRental ? "返却" : "貸出"}
+                  </Button>
                 </TableCell>
               </TableRow>
             ))

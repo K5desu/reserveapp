@@ -9,6 +9,7 @@ export type Payment = {
   student_id: string;
   time: string;
   status: string;
+  id: number;
 };
 export const columns: ColumnDef<Payment>[] = [
   {
