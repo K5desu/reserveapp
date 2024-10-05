@@ -18,9 +18,7 @@ export default function Footer() {
       try {
         const newss = await getAllNews();
         setNews(newss);
-      } catch (error) {
-        console.error(error);
-      }
+      } catch (error) {}
     }
     fetchData();
   }, []);

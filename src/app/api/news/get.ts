@@ -18,7 +18,6 @@ export async function getAllNews() {
 
     return formattedNews;
   } catch (error) {
-    console.error("ニュースの取得に失敗しました:", error);
     throw new Error("ニュースの取得に失敗しました");
   }
 }

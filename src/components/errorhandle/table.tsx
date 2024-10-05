@@ -38,7 +38,6 @@ export default function TablePage() {
         setReserves(data);
         setLoading(true);
       } catch (error) {
-        console.error("Error fetching reservations:", error);
         toast({
           title: "エラー",
           description: "予約データなし",

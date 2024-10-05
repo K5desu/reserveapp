@@ -18,7 +18,6 @@ export const checkReserve = async (author_id: string) => {
       return null;
     }
   } catch (error) {
-    console.error(error);
     throw new Error("予約情報の取得に失敗しました");
   }
 };
@@ -45,7 +44,6 @@ export const createReserve = async (
     });
     return newReserve;
   } catch (error) {
-    console.error(error);
     throw new Error("予約の作成に失敗しました");
   }
 };
@@ -58,7 +56,6 @@ export const removeReserve = async (id: number) => {
       },
     });
   } catch (error) {
-    console.error(error);
     throw new Error("予約の削除に失敗しました");
   }
 };

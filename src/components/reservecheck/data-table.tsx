@@ -67,7 +67,7 @@ export function DataTable<TData extends Identifiable, TValue>({
                     cell.column.columnDef.cell,
                     cell.getContext()
                   );
-                  console.log(renderedContent); // コンソールに出力
+
                   return <TableCell key={cell.id}>{renderedContent}</TableCell>;
                 })}
                 <TableCell>

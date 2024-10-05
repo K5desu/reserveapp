@@ -17,7 +17,6 @@ export default function Page() {
         title: "投稿に成功しました",
       });
     } catch (error) {
-      console.error(error);
       toast({
         title: "投稿に失敗しました",
       });

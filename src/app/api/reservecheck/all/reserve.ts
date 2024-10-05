@@ -29,7 +29,6 @@ export async function getReservationByauthorId(author_id: string) {
       return null;
     }
   } catch (error) {
-    console.error(error);
     throw new Error("Failed to get reservation information");
   }
 }
@@ -133,7 +132,6 @@ export async function toggleIsRental(id: number): Promise<void> {
       });
     }
   } catch (error) {
-    console.error("Failed to toggle isRental:", error);
     throw error;
   }
 }
