@@ -14,7 +14,7 @@ interface TableProps {
 // #fcd34d 16.666%左端のスペース指定
 
 export default function Table({ reserves }: TableProps) {
-  const times = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00"];
+  const times = ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00"];
   const rooms = ["1-A", "1-B", "2-A", "2-B", "3-A", "3-B"];
 
   const getCellText = (room: string, time: string) => {
