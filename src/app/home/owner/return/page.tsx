@@ -54,7 +54,7 @@ export default function Page() {
           </Button>
         </div>
       </div>
-      <DemoPage data={reserveData} IsRental={false} />
+      <DemoPage data={reserveData} IsRental={true} />
     </div>
   );
 }
