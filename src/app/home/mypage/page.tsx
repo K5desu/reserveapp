@@ -1,10 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import {
-  checkReserve,
-  createReserve,
-  removeReserve,
-} from "@/app/api/reservecheck/route";
+import { checkReserve, removeReserve } from "@/app/api/reservecheck/reserve";
 import { RyuAuthenticator } from "@/lib/ryu-authentcator";
 import { Button } from "@/components/ui/button";
 import Logout from "@/components/google/Logout";
