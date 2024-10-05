@@ -6,7 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
+import { toggleIsRental } from "@/app/api/reservecheck/all/reserve";
 import { Button } from "@/components/ui/button";
 import {
   Table,

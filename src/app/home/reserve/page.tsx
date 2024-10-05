@@ -1,11 +1,18 @@
 "use client";
 import Table from "@/components/reserve/table";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { createReserve } from "@/app/api/reservecheck/route";
-
+import { getReservationsByDate } from "@/app/api/reservecheck/all/reserve";
 export default function Page() {
+  interface ReservationAll {
+    starttime: string;
+    finishtime: string;
+    room_number: string;
+  }
+
+  const [reserves, setReserves] = useState<ReservationAll[]>([]);
   const searchParams = useSearchParams();
   const { toast } = useToast();
   const queryDate = searchParams.get("query");
@@ -13,23 +20,18 @@ export default function Page() {
   const handleNumPeopleChange = (e: any) => {
     setNumPeople(e.target.value);
   };
-  const reserves = [
-    {
-      starttime: "12:00",
-      finishtime: "12:10",
-      room_number: "1-A",
-    },
-    {
-      starttime: "12:30",
-      finishtime: "12:50",
-      room_number: "1-A",
-    },
-  ];
 
   const formattedDate = queryDate
     ? new Date(queryDate).toISOString().split("T")[0]
     : "";
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getReservationsByDate(formattedDate);
+      setReserves(data);
+    };
+    fetchData();
+  }, []);
   const [startTime, setStartTime] = useState("");
   const [finishTime, setFinishTime] = useState("");
   const [room, setRoom] = useState("1-A");
@@ -95,7 +97,7 @@ export default function Page() {
 
   return (
     <>
-      <div className="date text-red-500 text-2xl my-5">2024 X月X日</div>
+      <div className="date text-red-500 text-2xl my-5">{formattedDate}</div>
       <div className="content flex flex-col md:flex-row justify-between p-5">
         <Table reserves={reserves} />
         <form

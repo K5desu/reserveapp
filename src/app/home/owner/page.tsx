@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { DemoPage } from "@/components/reservecheck/table";
 import { Payment } from "@/components/reservecheck/columns";
+import { getRentalReservations } from "@/app/api/reservecheck/all/reserve";
 import Link from "next/link";
 export default function Page() {
   function getData(): Payment[] {
@@ -27,6 +28,11 @@ export default function Page() {
   const [data, setData] = useState<string>("");
 
   useEffect(() => {
+    const fetchData = async () => {
+      const data = await getRentalReservations();
+    };
+    fetchData();
+
     const starCountRef = ref(database, "user");
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();

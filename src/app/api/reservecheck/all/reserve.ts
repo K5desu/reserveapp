@@ -6,11 +6,31 @@ interface Reservation {
   finishtime: string;
   room_number: string;
 }
-interface ReservationAll {
+export interface ReservationAll {
   author: string;
   starttime: string;
   finishtime: string;
   room_number: string;
+}
+export async function getReservationByauthorId(author_id: string) {
+  try {
+    const reserve = await prisma.reserve.findMany({
+      where: {
+        author_id: author_id,
+      },
+    });
+
+    if (reserve) {
+      return {
+        reserve,
+      };
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to get reservation information");
+  }
 }
 
 export async function getReservationsByDate(
@@ -74,4 +94,26 @@ export async function getNonRentalReservations(): Promise<ReservationAll[]> {
     room_number: reservation.room_number,
     author: reservation.author_id,
   }));
+}
+export async function toggleIsRental(id: number): Promise<void> {
+  try {
+    const reservation = await prisma.reserve.findUnique({
+      where: { id },
+      select: { isRenatal: true },
+    });
+
+    if (reservation?.isRenatal == false) {
+      await prisma.reserve.update({
+        where: { id },
+        data: { isRenatal: !reservation.isRenatal },
+      });
+    } else if (reservation?.isRenatal) {
+      await prisma.reserve.delete({
+        where: { id },
+      });
+    }
+  } catch (error) {
+    console.error("Failed to toggle isRental:", error);
+    throw error;
+  }
 }
