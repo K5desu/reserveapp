@@ -53,6 +53,16 @@ export default function TablePage() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    // 時間が指定されていない場合のチェック
+    if (!startTime || !finishTime) {
+      toast({
+        title: "エラー",
+        description: "開始時間と終了時間を指定してください。",
+      });
+      return;
+    }
+
     const start = new Date(`1970-01-01T${startTime}:00`);
     const finish = new Date(`1970-01-01T${finishTime}:00`);
     const diff = (finish.getTime() - start.getTime()) / (1000 * 60 * 60); // 時間差を計算
