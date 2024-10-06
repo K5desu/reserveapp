@@ -6,7 +6,7 @@ async function createUser(mail: string) {
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: {
-        id: "y220018",
+        id: "y220010",
       },
     });
 
@@ -14,7 +14,7 @@ async function createUser(mail: string) {
       if (existingUser?.mail !== mail) {
         await prisma.user.update({
           where: {
-            id: "y220018",
+            id: "y220010",
           },
           data: {
             mail: mail,
@@ -28,7 +28,7 @@ async function createUser(mail: string) {
 
     const user = await prisma.user.create({
       data: {
-        id: "y220018",
+        id: "y220010",
         mail: mail,
       },
     });

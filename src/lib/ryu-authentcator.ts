@@ -7,7 +7,7 @@ export function RyuAuthenticator() {
   }
   if (
     status === "authenticated" &&
-    emailDomain === "testuserforryukoku@gmail.com"
+    emailDomain === "y220010@mail.ryukoku.ac.jp"
   ) {
     return true;
   } else {

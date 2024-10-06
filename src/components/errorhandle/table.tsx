@@ -118,7 +118,7 @@ export default function TablePage() {
     });
 
     await createReserve(
-      "y220018",
+      "y220010",
       numPeople,
       formattedDateRef.current,
       startTime,

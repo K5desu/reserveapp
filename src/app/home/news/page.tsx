@@ -16,6 +16,7 @@ export default function Page() {
       toast({
         title: "投稿に成功しました",
       });
+      window.location.reload();
     } catch (error) {
       toast({
         title: "投稿に失敗しました",

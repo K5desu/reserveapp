@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import Logout from "@/components/google/Logout";
 export default function Page() {
   const IsRyu = RyuAuthenticator();
-  const studentId = "y220018";
+  const studentId = "y220010";
   const [reserveData, setReserveData] = useState<
     | {
         id: number;
