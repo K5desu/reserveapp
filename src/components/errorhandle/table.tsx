@@ -92,39 +92,51 @@ export default function TablePage() {
     }
 
     // 予約の重なりチェック
-    const isOverlap = reserves.some((reserve) => {
-      if (reserve.room_number !== room) return false;
-      const reserveStart = new Date(`1970-01-01T${reserve.starttime}:00`);
-      const reserveFinish = new Date(`1970-01-01T${reserve.finishtime}:00`);
-      return (
-        (start >= reserveStart && start < reserveFinish) ||
-        (finish > reserveStart && finish <= reserveFinish) ||
-        (start <= reserveStart && finish >= reserveFinish)
-      );
-    });
+    const fetchReservations = async () => {
+      try {
+        const data = await getReservationsByDate(formattedDateRef.current);
+        const isOverlap = data.some((reserve: ReservationAll) => {
+          if (reserve.room_number !== room) return false;
+          const reserveStart = new Date(`1970-01-01T${reserve.starttime}:00`);
+          const reserveFinish = new Date(`1970-01-01T${reserve.finishtime}:00`);
+          return (
+            (start >= reserveStart && start < reserveFinish) ||
+            (finish > reserveStart && finish <= reserveFinish) ||
+            (start <= reserveStart && finish >= reserveFinish)
+          );
+        });
 
-    if (isOverlap) {
-      toast({
-        title: "エラー",
-        description: "指定された時間帯には既に同じ部屋の予約があります。",
-      });
-      return;
-    }
+        if (isOverlap) {
+          toast({
+            title: "エラー",
+            description: "指定された時間帯には既に同じ部屋の予約があります。",
+          });
+          return;
+        }
 
-    // 予約処理をここに追加
-    toast({
-      title: "正常に予約がされました",
-      description: "Mypageを確認してください",
-    });
+        // 予約処理をここに追加
+        toast({
+          title: "正常に予約がされました",
+          description: "Mypageを確認してください",
+        });
 
-    await createReserve(
-      "y220010",
-      numPeople,
-      formattedDateRef.current,
-      startTime,
-      finishTime,
-      room
-    );
+        await createReserve(
+          "y220010",
+          numPeople,
+          formattedDateRef.current,
+          startTime,
+          finishTime,
+          room
+        );
+      } catch (error) {
+        toast({
+          title: "エラー",
+          description: "予約の確認中にエラーが発生しました。",
+        });
+      }
+    };
+
+    fetchReservations();
   };
 
   return (
