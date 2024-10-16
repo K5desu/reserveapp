@@ -65,6 +65,16 @@ export default function TablePage() {
 
     const start = new Date(`1970-01-01T${startTime}:00`);
     const finish = new Date(`1970-01-01T${finishTime}:00`);
+
+    // 開始時間よりも終了時間のほうが前に来ていた場合のチェック
+    if (finish <= start) {
+      toast({
+        title: "エラー",
+        description: "終了時間は開始時間より後でなければなりません。",
+      });
+      return;
+    }
+
     const diff = (finish.getTime() - start.getTime()) / (1000 * 60 * 60); // 時間差を計算
 
     // 予約時間が10:00から17:00の間にあるかチェック
