@@ -31,7 +31,10 @@ export default function Home() {
           </button>
           <p className="instructions mt-2 text-sm">
             ご利用方法については
-            <a href="#" className="text-red-500 no-underline">
+            <a
+              href="https://foggy-direction-f3b.notion.site/12a221b8d6578046a432fb314b583b1d?pvs=4"
+              className="text-red-500 no-underline"
+            >
               こちら
             </a>
           </p>
