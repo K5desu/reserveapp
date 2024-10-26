@@ -5,10 +5,7 @@ export function RyuAuthenticator() {
   if (session) {
     emailDomain = session.user?.email || "";
   }
-  if (
-    status === "authenticated" &&
-    emailDomain === "testuserforryukoku@gmail.com"
-  ) {
+  if (status === "authenticated") {
     return true;
   } else {
     return false;
